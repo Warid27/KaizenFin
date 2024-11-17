@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload File dan Simpan Data</title>
+</head>
+<body>
+  <h1>Form Upload dan Simpan Data</h1>
+
+  <h2>Form Simpan Data</h2>
+  <form id="saveDataForm">
+    <input type="text" id="name" placeholder="Nama" required><br><br>
+    <input type="email" id="email" placeholder="Email" required><br><br>
+    <button type="submit">Simpan Data</button>
+  </form>
+
+  <h2>Form Upload File</h2>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="file" required><br><br>
+    <button type="submit">Upload File</button>
+  </form>
+
+  <h2>Data yang Tersimpan</h2>
+  <button onclick="getData()">Lihat Data</button>
+  <pre id="dataDisplay"></pre>
+
+  <script>
+    // Mengirimkan data untuk disimpan
+    document.getElementById('saveDataForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+
+      fetch('http://localhost:3000/save-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email })
+      })
+      .then(response => response.text())
+      .then(data => alert(data))
+      .catch(error => console.error('Error:', error));
+    });
+
+    // Meng-upload file
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const formData = new FormData();
+      const fileInput = document.querySelector('input[type="file"]');
+      formData.append('file', fileInput.files[0]);
+
+      fetch('http://localhost:3000/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => alert(data))
+      .catch(error => console.error('Error:', error));
+    });
+
+    // Menampilkan data yang tersimpan
+    function getData() {
+      fetch('http://localhost:3000/get-data')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('dataDisplay').textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
+</body>
+</html>

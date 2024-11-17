@@ -1,0 +1,120 @@
+<div class="container">
+    <header>
+        <div class="logo">
+            <img src="/assets/img/KaizenFin_Logo.png" alt="KaizenFin" />
+        </div>
+        <h1>Pinjaman dan Pelunasan</h1>
+    </header>
+</div>
+<div class="container">
+    <div class="card">
+        <h2>
+            <button id="tambah">Pinjam</button>
+            <span>Detail Peminjaman</span>
+        </h2>
+        <table>
+            <tr>
+                <th>No</th>
+                <th>Pinjaman</th>
+                <th>Jumlah</th>
+                <th>Tanggal</th>
+                <th>Tenggat</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div class="card">
+        <h2>
+            <button id="tarik">Lunasi</button>
+            <span>Detail Pelunasan</span>
+        </h2>
+        <table>
+            <tr>
+                <th>No</th>
+                <th>Pinjaman</th>
+                <th>Jumlah</th>
+                <th>Tanggal</th>
+                <th>Hutang</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- Peminjaman -->
+<div class="form-modals" id="modals_peminjaman">
+    <span>
+        <h2>Peminjaman Uang</h2>
+        <button id="closeModals"><i class="fa-solid fa-circle-xmark"></i></button>
+    </span>
+    <form id="peminjaman" action="">
+        <div class="input-control">
+            <label for="nama">Nama</label>
+            <input type="text" name="nama" placeholder="nama">
+        </div>
+        <div class="input-control">
+            <label for="metode_pinjaman">Metode Pinjaman</label>
+            <select id="metode_pinjaman">
+                <option value="Dana">Dana</option>
+                <option value="Bank">Bank</option>
+                <option value="Koperasi">Koperasi</option>
+                <option value="PayPal">PayPal</option>
+            </select>
+        </div>
+        <div class="input-control">
+            <label for="jumlah">Jumlah</label>
+            <input type="number" name="jumlah" placeholder="Jumlah">
+        </div>
+        <div class="input-control">
+            <label for="tenggat">Tanggal Pelunasan</label>
+            <input type="date" id="tenggat" placeholder="">
+        </div>
+        <div id="BtnControl">
+            <input type="submit" value="Kirim">
+            <input type="reset" value="Reset">
+        </div>
+    </form>
+</div>
+<!-- Pelunasan -->
+<div class="form-modals" id="modals_pelunasan">
+    <span>
+        <h2>Pelunasan Pinjaman</h2>
+        <button id="closeModals"><i class="fa-solid fa-circle-xmark"></i></button>
+    </span>
+    <form id="pelunasan" action="">
+        <div class="input-control">
+            <label for="nama">Nama</label>
+            <input type="text" name="nama" placeholder="nama">
+        </div>
+        <div class="input-control">
+            <label for="metode_pinjaman">Pinjaman</label>
+            <select id="metode_pinjaman">
+                <option value="Dana">Dana</option>
+                <option value="Bank">Bank</option>
+                <option value="Koperasi">Koperasi</option>
+                <option value="PayPal">PayPal</option>
+            </select>
+        </div>
+        <div class="input-control">
+            <label for="jumlah">Jumlah</label>
+            <input type="number" name="jumlah" placeholder="Jumlah">
+        </div>
+        <div id="BtnControl">
+            <input type="submit" value="Kirim">
+            <input type="reset" value="Reset">
+        </div>
+    </form>
+</div>

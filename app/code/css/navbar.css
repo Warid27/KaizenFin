@@ -1,0 +1,39 @@
+.navbar{
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+}
+.navbar *{
+    color: var(--bg-accent);
+    list-style: none;
+    text-decoration: none;
+}
+.navbar ul{
+    background: var(--bg-primary);
+    position: relative;
+    padding: 2vh 1vw;
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+}
+.navbar ul li{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.navbar a.active{
+    position: absolute;
+    bottom: 0;
+    font-size: 36px;
+    background: var(--bg-primary);
+    width: 100px;
+    height: 80px;
+    padding: 10px 0;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.navbar a{
+    font-size: 24px;
+}

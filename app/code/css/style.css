@@ -1,0 +1,15 @@
+@import url('/app/code/css/navbar.css');
+@import url('/app/code/css/main.css');
+*, html, body{
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+}
+:root{
+    --bg-primary: #4DB6AC;
+    --bg-secondary: #EFBF04;
+    --bg-accent: #F5F5F5;
+}
+body{
+    background: var(--bg-accent);
+}
