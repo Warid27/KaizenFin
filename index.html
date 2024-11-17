@@ -1,24 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KaizenFin</title>
-    <link rel="icon" href="assets/img/KaizenFin_Icon.png">
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <!-- Style CSS -->
-    <link rel="stylesheet" href="app/code/css/style.css">
-</head>
-<body>
-    <!-- Main Content -->
-    <div id="main-content" class="main-content">Loading...</div>
-    <!-- Navbar -->
-    <div id="navbar" class="navbar"></div>
-    <script src="app/code/js/page.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistem Simpan Data</title>
+  </head>
+  <body>
+    <h1>Sistem Simpan</h1>
+
+    <h2>Form Simpan Data</h2>
+    <div class="form-modals" id="modals_pemasukan">
+      <span>
+        <h2>Tambah Saldo</h2>
+        <button id="closeModals">
+          <i class="fa-solid fa-circle-xmark"></i>
+        </button>
+      </span>
+
+      <form id="pemasukan_form">
+        <div class="input-control">
+          <label for="nama_pemasukan">Nama</label>
+          <input type="text" id="nama_pemasukan" placeholder="nama" />
+        </div>
+        <div class="input-control">
+          <label for="metode_pemasukan">Metode</label>
+          <select id="metode_pemasukan">
+            <option value="Dana">Dana</option>
+            <option value="Bank">Bank</option>
+            <option value="Koperasi">Koperasi</option>
+            <option value="PayPal">PayPal</option>
+          </select>
+        </div>
+        <div class="input-control">
+          <label for="jumlah_pemasukan">Jumlah</label>
+          <input type="number" id="jumlah_pemasukan" placeholder="Jumlah" />
+        </div>
+        <div class="input-control">
+          <label for="dataName">dataName</label>
+          <input type="hidden" id="dataName" value="pemasukan" />
+        </div>
+        <div id="BtnControl">
+          <button type="submit">Kirim</button>
+          <button type="reset">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="form-modals" id="modals_pengeluaran">
+      <span>
+        <h2>Tarik Saldo</h2>
+        <button id="closeModals">
+          <i class="fa-solid fa-circle-xmark"></i>
+        </button>
+      </span>
+
+      <form id="pengeluaran_form">
+        <div class="input-control">
+          <label for="nama_pengeluaran">Nama</label>
+          <input type="text" id="nama_pengeluaran" placeholder="nama" />
+        </div>
+        <div class="input-control">
+          <label for="metode_pengeluaran">Metode</label>
+          <select id="metode_pengeluaran">
+            <option value="Dana">Dana</option>
+            <option value="Bank">Bank</option>
+            <option value="Koperasi">Koperasi</option>
+            <option value="PayPal">PayPal</option>
+          </select>
+        </div>
+        <div class="input-control">
+          <label for="jumlah_pengeluaran">Jumlah</label>
+          <input type="number" id="jumlah_pengeluaran" placeholder="Jumlah" />
+        </div>
+        <div class="input-control">
+          <label for="dataName">dataName</label>
+          <input type="hidden" id="dataName" value="pengeluaran" /><br /><br />
+        </div>
+        <div id="BtnControl">
+          <button type="submit">Kirim</button>
+          <button type="reset">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <h2>Data yang Tersimpan</h2>
+    <select name="dataName" id="getDataName">
+      <option value="pemasukan">Pemasukan</option>
+      <option value="pengeluaran">Pengeluaran</option>
+    </select>
+    <button onclick="getData()">Lihat Data</button>
+    <pre id="dataDisplay"></pre>
+
     <script src="app/code/js/script.js"></script>
-    <script src="app/database/database.js"></script>
-</body>
+  </body>
 </html>

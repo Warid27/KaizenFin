@@ -7,9 +7,9 @@ const fs = require('fs');
 // Inisialisasi aplikasi Express
 const app = express();
 
-// Menyajikan file index.html saat mengakses root URL
+// Menyajikan file test.html saat mengakses root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'test.html'));
 });
 
 // Set up storage untuk Multer
@@ -37,7 +37,7 @@ app.post('/save-data', (req, res) => {
   };
 
   // Menyimpan data ke file JSON
-  fs.writeFileSync('data.json', JSON.stringify(data, null, 2), 'utf-8');
+  fs.writeFileSync('data-test.json', JSON.stringify(data, null, 2), 'utf-8');
   res.send('Data berhasil disimpan!');
 });
 
@@ -53,7 +53,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
 // Endpoint untuk membaca data JSON
 app.get('/get-data', (req, res) => {
-  const rawData = fs.readFileSync('data.json', 'utf-8');
+  const rawData = fs.readFileSync('data-test.json', 'utf-8');
   res.json(JSON.parse(rawData));
 });
 

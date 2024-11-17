@@ -1,0 +1,36 @@
+{
+  "pemasukan": [
+    {
+      "nama": "wa",
+      "metode": "Dana",
+      "jumlah": 100000
+    },
+    {
+      "nama": "sss",
+      "metode": "Bank",
+      "jumlah": 50000
+    },
+    {
+      "nama": "Sodiq",
+      "metode": "Bank",
+      "jumlah": 1
+    }
+  ],
+  "pengeluaran": [
+    {
+      "nama": "www",
+      "metode": "PayPal",
+      "jumlah": 20000
+    },
+    {
+      "nama": "walawe",
+      "metode": "Koperasi",
+      "jumlah": 30000
+    },
+    {
+      "nama": "Sodiq",
+      "metode": "Bank",
+      "jumlah": 1
+    }
+  ]
+}

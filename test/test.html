@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Simpan Data</title>
+</head>
+<body>
+  <h1>Sistem Simpan</h1>
+
+  <h2>Form Simpan Data</h2>
+  <form id="saveDataForm">
+    <input type="text" id="name" placeholder="Nama" required><br><br>
+    <input type="email" id="email" placeholder="Email" required><br><br>
+    <input type="text" id="dataName" placeholder="Nama Data (contoh: data_1)" required><br><br>
+    <button type="submit">Simpan Data</button>
+  </form>
+
+
+  <h2>Data yang Tersimpan</h2>
+  <input type="text" id="dataName" placeholder="Nama Data (contoh: data_1)" required><br><br>
+  <input type="text" id="getDataName" placeholder="Nama Data (contoh: data_1)" required>
+  <button onclick="getData()">Lihat Data</button>
+  <pre id="dataDisplay"></pre>
+
+  <script src="app/code/js/script.js"></script>
+</body>
+</html>
