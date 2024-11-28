@@ -1,36 +1,62 @@
 {
+  "total": [
+    {
+      "id": "data_total",
+      "nama": "wa",
+      "jumlah": -198845700
+    }
+  ],
   "pemasukan": [
     {
-      "nama": "wa",
+      "id": "12ofiha09h",
+      "nama": "sodiq",
+      "metode": "Bank",
+      "tanggal": "11/28/2024",
+      "jumlah": 19000
+    },
+    {
+      "id": "nopgokxdq",
+      "nama": "test1234",
+      "metode": "Koperasi",
+      "jumlah": 1000000,
+      "tanggal": "11/27/2024"
+    },
+    {
+      "id": "jxk7l18ev",
+      "nama": "Walawe a?",
+      "metode": "Bank",
+      "jumlah": 145000,
+      "tanggal": "11/27/2024"
+    },
+    {
+      "id": "yg4e2m8cc",
+      "nama": "zealo",
       "metode": "Dana",
-      "jumlah": 100000
-    },
-    {
-      "nama": "sss",
-      "metode": "Bank",
-      "jumlah": 50000
-    },
-    {
-      "nama": "Sodiq",
-      "metode": "Bank",
-      "jumlah": 1
+      "jumlah": 9800,
+      "tanggal": "11/27/2024"
     }
   ],
   "pengeluaran": [
     {
-      "nama": "www",
+      "id": "142sgeg",
+      "nama": "wa",
       "metode": "PayPal",
-      "jumlah": 20000
+      "tanggal": "11/27/2024",
+      "jumlah": 5000
     },
     {
-      "nama": "walawe",
-      "metode": "Koperasi",
-      "jumlah": 30000
-    },
-    {
-      "nama": "Sodiq",
+      "id": "28t7a1rv9",
+      "nama": "sodiq",
       "metode": "Bank",
-      "jumlah": 1
+      "jumlah": 15000,
+      "tanggal": "11/27/2024"
+    },
+    {
+      "id": "3koeayurc",
+      "nama": "Ipan",
+      "metode": "Bank",
+      "jumlah": 199999500,
+      "tanggal": "11/28/2024"
     }
   ]
 }

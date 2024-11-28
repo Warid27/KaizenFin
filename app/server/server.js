@@ -1,86 +1,179 @@
 const express = require('express');
-const multer = require('multer');
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 
-// Inisialisasi aplikasi Express
 const app = express();
 
-// Middleware untuk parsing JSON dan URL-encoded
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Menyajikan file statis
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-app.use('/app', express.static(path.join(__dirname, '../../app')));
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../index.html'));
-});
-
-// Konfigurasi Multer untuk upload file
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../uploads'));
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
-
-const upload = multer({ storage: storage });
-
-// Path file database
+// Path to the database
 const databasePath = path.join(__dirname, '../database/data.json');
 
+// Helper function to read and write the JSON database
+function readDatabase() {
+  if (!fs.existsSync(databasePath)) {
+    return { pemasukan: [], pengeluaran: [], total: [] };
+  }
+  const rawData = fs.readFileSync(databasePath, 'utf-8');
+  return JSON.parse(rawData);
+}
+
+function writeDatabase(data) {
+  fs.writeFileSync(databasePath, JSON.stringify(data, null, 2), 'utf-8');
+}
+
+// POST route to save data
 app.post('/save-data', (req, res) => {
-  console.log(req.body); // Debugging: Log the received data
-  const { dataName, nama, metode, jumlah } = req.body;
+  const { id, dataName, nama, metode, jumlah } = req.body;
 
   if (!dataName || !nama || !metode || !jumlah) {
-      return res.status(400).send('Semua field wajib diisi!');
+    return res.status(400).send('All fields are required!');
   }
 
   const newData = {
-      nama,
-      metode,
-      jumlah: parseFloat(jumlah) // Ensure `jumlah` is stored as a number
+    id,
+    nama,
+    metode,
+    jumlah: parseFloat(jumlah),
+    tanggal: new Date().toLocaleDateString()
   };
 
-  let database = {};
-  if (fs.existsSync(databasePath)) {
-      const rawData = fs.readFileSync(databasePath, 'utf-8');
-      database = JSON.parse(rawData);
+  const database = readDatabase();
+
+  if (dataName === 'pemasukan') {
+    // Add to "pemasukan" array
+    if (!database.pemasukan) database.pemasukan = [];
+    database.pemasukan.push(newData);
+
+    // Update "total" with the given ID
+    const totalEntry = database.total.find(entry => entry.id === "data_total");
+    if (totalEntry) {
+      totalEntry.jumlah += newData.jumlah;
+    } else {
+      database.total.push({ id: "data_total", nama: "wa", jumlah: newData.jumlah });
+    }
+  } else if (dataName === 'pengeluaran') {
+    // Add to "pengeluaran" array
+    if (!database.pengeluaran) database.pengeluaran = [];
+    database.pengeluaran.push(newData);
+
+    // Update "total" with the given ID
+    const totalEntry = database.total.find(entry => entry.id === "data_total");
+    if (totalEntry) {
+      totalEntry.jumlah -= newData.jumlah;
+    } else {
+      return res.status(400).send('No total data to deduct from!');
+    }
+  } else {
+    return res.status(400).send('Invalid data name!');
   }
 
-  if (!database[dataName]) {
-      database[dataName] = [];
-  }
-
-  database[dataName].push(newData); // Add the new entry
-  fs.writeFileSync(databasePath, JSON.stringify(database, null, 2), 'utf-8');
-  res.send(`Data berhasil disimpan ke ${dataName}!`);
+  writeDatabase(database);
+  res.send(`Data successfully saved to ${dataName} and updated total.`);
 });
 
-// Endpoint untuk membaca data
+// GET route to retrieve data
 app.get('/get-data/:dataName', (req, res) => {
   const { dataName } = req.params;
-
-  if (!fs.existsSync(databasePath)) {
-    return res.status(404).send('Database tidak ditemukan!');
-  }
-
-  const rawData = fs.readFileSync(databasePath, 'utf-8');
-  const database = JSON.parse(rawData);
+  const database = readDatabase();
 
   if (!database[dataName]) {
-    return res.status(404).send(`Data dengan nama ${dataName} tidak ditemukan!`);
+    return res.status(404).send(`Data with name "${dataName}" not found!`);
   }
 
   res.json(database[dataName]);
 });
 
-// Jalankan server pada port 3000
+// PUT route to edit data by ID
+app.put('/edit-data/:id', (req, res) => {
+  const { id } = req.params;
+  const { dataType, nama, metode, jumlah } = req.body;
+
+  if (!dataType || !nama || !metode || !jumlah) {
+    return res.status(400).send('All fields are required!');
+  }
+
+  const database = readDatabase();
+  const dataArray = database[dataType];
+
+  if (!dataArray) {
+    return res.status(404).send(`Data with name "${dataName}" not found!`);
+  }
+
+  const entryIndex = dataArray.findIndex(entry => entry.id === id);
+
+  if (entryIndex === -1) {
+    return res.status(404).send('Data entry not found!');
+  }
+
+  // Update the data entry
+  dataArray[entryIndex] = {
+    ...dataArray[entryIndex],
+    nama,
+    metode,
+    jumlah: parseFloat(jumlah),
+    tanggal: new Date().toLocaleDateString()
+  };
+
+  // Update the total if necessary
+  const totalEntry = database.total.find(entry => entry.id === "data_total");
+  if (totalEntry) {
+    totalEntry.jumlah = database.pemasukan.reduce((sum, item) => sum + item.jumlah, 0)
+      - database.pengeluaran.reduce((sum, item) => sum + item.jumlah, 0);
+  }
+
+  writeDatabase(database);
+  res.send(`Data with ID ${id} has been updated successfully.`);
+});
+
+// DELETE route to delete data by ID
+app.delete('/delete-data/:id', (req, res) => {
+  const { id } = req.params;
+  const { dataName } = req.query; // Pass dataName as a query parameter (e.g., ?dataName=pemasukan)
+
+  if (!dataName) {
+    return res.status(400).send('Data name (pemasukan/pengeluaran) is required.');
+  }
+
+  const database = readDatabase();
+  const dataArray = database[dataName];
+
+  if (!dataArray) {
+    return res.status(404).send(`Data with name "${dataName}" not found!`);
+  }
+
+  const entryIndex = dataArray.findIndex(entry => entry.id === id);
+
+  if (entryIndex === -1) {
+    return res.status(404).send('Data entry not found!');
+  }
+
+  // Remove the entry
+  const [deletedEntry] = dataArray.splice(entryIndex, 1);
+
+  // Update the total
+  const totalEntry = database.total.find(entry => entry.id === "data_total");
+  if (totalEntry) {
+    totalEntry.jumlah = database.pemasukan.reduce((sum, item) => sum + item.jumlah, 0)
+      - database.pengeluaran.reduce((sum, item) => sum + item.jumlah, 0);
+  }
+
+  writeDatabase(database);
+  res.send(`Data with ID ${id} has been deleted successfully. Removed: ${JSON.stringify(deletedEntry)}`);
+});
+
+// Static files and home route
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/app', express.static(path.join(__dirname, '../../app')));
+app.use('/assets', express.static(path.join(__dirname, '../../assets')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../index.html'));
+});
+
+// Start the server
 app.listen(3000, () => {
-  console.log('Server berjalan di http://localhost:3000');
+  console.log('Server is running on http://localhost:3000');
 });

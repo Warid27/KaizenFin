@@ -2,9 +2,9 @@
 const routes = {
   home: "./app/code/html/home.html",
   profil: "./app/code/html/profil.html",
-  pinjam: "./app/code/html/pinjam.html",
-  laporan: "./app/code/html/laporan.html",
-  pendapatan: "./app/code/html/pendapatan.html",
+  pengeluaran: "./app/code/html/pengeluaran.html",
+  data_total: "./app/code/html/data_total.html",
+  pemasukan: "./app/code/html/pemasukan.html",
 };
 
 // Fungsi untuk memuat konten dari file HTML ke dalam div#main-content
