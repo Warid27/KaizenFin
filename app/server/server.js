@@ -202,6 +202,7 @@ app.delete("/delete-data/:id", (req, res) => {
 // Static files and home route
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use("/app", express.static(path.join(__dirname, "../../app")));
+app.use("/assets", express.static(path.join(__dirname, "../../assets")));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../../index.html"));

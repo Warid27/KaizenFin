@@ -13,3 +13,57 @@
 body{
     background: var(--bg-accent);
 }
+.flex-column{
+    flex-direction: column;
+}
+header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+header .logo{
+    padding-right: 3em;
+}
+header .logo img{
+    width: 3em;
+}
+.container-home{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.container-home img{
+    width: 10em;
+}
+
+.card-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+}
+.card-container .card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.card-container .profile-photo{
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    border-radius: 100%;
+    margin: 25px;
+}
+.card-container img{
+    width: 100%;
+    height: 100%;
+}
+.profile-control{
+    margin: 25px 100px;
+    display: grid;
+    grid-template-columns: 100px 300px;
+    align-items: center;
+}

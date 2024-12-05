@@ -1,5 +1,6 @@
 // Function to save data
 document.querySelectorAll("form").forEach(function (form) {
+  console.log("get form");
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -99,10 +100,10 @@ function getData(dataType) {
             <td>
               <button onclick="editData('${
                 item.id
-              }', '${dataType}')">Edit</button>
+              }', '${dataType}')" class="btn btn-warning">Edit</button>
               <button onclick="deleteData('${
                 item.id
-              }', '${dataType}')">Hapus</button>
+              }', '${dataType}')" class="btn btn-danger">Hapus</button>
             </td>
           `;
           tableBody.appendChild(row);
@@ -115,7 +116,7 @@ function getData(dataType) {
     })
     .catch((error) => {
       console.error("Error:", error);
-      alert(`Gagal mengambil data: ${error.message}`);
+      // alert(`Gagal mengambil data: ${error.message}`);
     });
 }
 
@@ -137,7 +138,7 @@ function getTotal() {
       if (typeof total === "number" && !isNaN(total)) {
         document.getElementById(
           "totalDisplay"
-        ).textContent = `Total: ${total.toLocaleString("id-ID", {
+        ).textContent = `${total.toLocaleString("id-ID", {
           style: "currency",
           currency: "IDR",
         })}`;
@@ -152,14 +153,44 @@ function getTotal() {
     });
 }
 
-// Function to edit data
+
+// Function to delete data
+function deleteData(id, dataType) {
+  if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+    fetch(`http://localhost:3000/delete-data/${id}?dataName=${dataType}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        alert(data);
+        getData(dataType); // Refresh data for the correct type
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert(`Gagal menghapus data: ${error.message}`);
+      });
+  }
+}
+
+
 function editData(id, dataType) {
-  let nama = prompt("Masukkan nama baru:");
-  let metode = prompt("Masukkan metode baru (Dana/Bank/Koperasi/PayPal):");
-  let jumlah = parseInt(prompt("Masukkan jumlah baru:"), 10);
+  document.getElementById("editId").value = id;
+  document.getElementById("editDataType").value = dataType;
+  const editModal = new bootstrap.Modal(document.getElementById("editModal"));
+  editModal.show();
+  
+}
+
+// Save edited data
+document.getElementById("saveEditBtn").addEventListener("click", function () {
+  const id = document.getElementById("editId").value;
+  const dataType = document.getElementById("editDataType").value;
+  const nama = document.getElementById("editNama").value;
+  const metode = document.getElementById("editMetode").value;
+  const jumlah = parseInt(document.getElementById("editJumlah").value, 10);
 
   if (!dataType || !nama || !metode || isNaN(jumlah)) {
-    alert("Data tidak valid. Semua field wajib diisi!");
+    alert("Semua field wajib diisi dengan benar!");
     return;
   }
 
@@ -182,51 +213,26 @@ function editData(id, dataType) {
       potongan = 0;
   }
 
-  switch (dataType) {
-    case "pemasukan":
-      jumlah -= potongan;
-      break;
-    case "pengeluaran":
-      jumlah += potongan;
-      break;
+  // Adjust amount based on dataType
+  const adjustedJumlah = dataType === "pemasukan" ? jumlah - potongan : jumlah + potongan;
 
-    default:
-      break;
-  }
-  // Subtract deduction from the amount
-
+  // Update data on server
   fetch(`http://localhost:3000/edit-data/${id}?dataName=${dataType}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ dataType, nama, metode, jumlah }),
+    body: JSON.stringify({dataType, nama, metode, jumlah: adjustedJumlah }),
   })
     .then((response) => response.text())
     .then((data) => {
       alert(data);
-      getData(dataType); // Refresh data after update
+      const editModal = bootstrap.Modal.getInstance(document.getElementById("editModal"));
+      editModal.hide();
+      getData(dataType); // Refresh data
     })
     .catch((error) => {
       console.error("Error:", error);
       alert(`Gagal mengupdate data: ${error.message}`);
     });
-}
-
-// Function to delete data
-function deleteData(id, dataType) {
-  if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-    fetch(`http://localhost:3000/delete-data/${id}?dataName=${dataType}`, {
-      method: "DELETE",
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        alert(data);
-        getData(dataType); // Refresh data for the correct type
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert(`Gagal menghapus data: ${error.message}`);
-      });
-  }
-}
+});

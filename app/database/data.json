@@ -3,16 +3,16 @@
     {
       "id": "data_total",
       "nama": "wa",
-      "jumlah": 8450
+      "jumlah": 2000
     }
   ],
   "pemasukan": [
     {
       "id": "12ofiha09h",
-      "nama": "sodiq",
-      "metode": "Bank",
-      "jumlah": 500,
-      "tanggal": "29/11/2024"
+      "nama": "Sodiq",
+      "metode": "Koperasi",
+      "jumlah": 9850,
+      "tanggal": "12/6/2024"
     },
     {
       "id": "gx31ur1lr",
@@ -22,27 +22,34 @@
       "tanggal": "28/11/2024"
     },
     {
-      "id": "j6r9fl9og",
-      "nama": "sodiq",
-      "metode": "Dana",
-      "jumlah": 800,
-      "tanggal": "28/11/2024"
+      "id": "9qwmpw76t",
+      "nama": "www123",
+      "metode": "Bank",
+      "jumlah": 122713,
+      "tanggal": "12/5/2024"
     }
   ],
   "pengeluaran": [
     {
-      "id": "142sgeg",
-      "nama": "WALAWE",
+      "id": "28t7a1rv9",
+      "nama": "wlawe a",
       "metode": "Bank",
-      "jumlah": 500,
-      "tanggal": "29/11/2024"
+      "jumlah": 15500,
+      "tanggal": "12/6/2024"
     },
     {
-      "id": "28t7a1rv9",
-      "nama": "hehe",
+      "id": "7dl5vqfcg",
+      "nama": "www",
+      "metode": "Dana",
+      "jumlah": 123013,
+      "tanggal": "12/5/2024"
+    },
+    {
+      "id": "n83yedtty",
+      "nama": "www12345",
       "metode": "Koperasi",
-      "jumlah": 1150,
-      "tanggal": "29/11/2024"
+      "jumlah": 850,
+      "tanggal": "12/6/2024"
     }
   ]
 }

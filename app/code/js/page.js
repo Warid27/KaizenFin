@@ -9,18 +9,26 @@ const routes = {
 
 // Fungsi untuk memuat konten dari file HTML ke dalam div#main-content
 async function loadPage(page) {
-  const filePath = routes[page] || routes["home"]; // Default ke 'home'
+  const filePath = routes[page] || routes["home"];
   try {
     const response = await fetch(filePath);
     if (!response.ok) throw new Error("File not found");
     const html = await response.text();
     document.getElementById("main-content").innerHTML = html;
+
+    // Call getData only after content is loaded
+    if (page === "pengeluaran") {
+      getData("pengeluaran");
+    } else if (page === "pemasukan") {
+      getData("pemasukan");
+    }
   } catch (error) {
     document.getElementById(
       "main-content"
     ).innerHTML = `<p>Error loading page: ${error.message}</p>`;
   }
 }
+
 
 // Fungsi untuk memuat NavBar
 async function loadNavBar() {
@@ -36,6 +44,23 @@ async function loadNavBar() {
     document.getElementById(
       "navbar"
     ).innerHTML = `<p>Error loading NavBar: ${error.message}</p>`;
+  }
+}
+
+// Fungsi untuk memuat header
+async function loadHeader() {
+  try {
+    const response = await fetch("app/code/html/header.html");
+    if (!response.ok) throw new Error("Header not found");
+    const html = await response.text();
+    document.getElementById("header").innerHTML = html;
+
+    // Setelah header dimuat, atur kelas aktif
+    highlightActiveLink();
+  } catch (error) {
+    document.getElementById(
+      "header"
+    ).innerHTML = `<p>Error loading header: ${error.message}</p>`;
   }
 }
 
@@ -59,3 +84,4 @@ const page = params.get("page") || "home";
 // Memuat konten sesuai dengan parameter
 loadPage(page);
 loadNavBar();
+loadHeader();
